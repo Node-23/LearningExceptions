@@ -15,7 +15,7 @@ public class App {
         while(true){
             int option = Integer.parseInt(JOptionPane.showInputDialog(null,"O que deseja fazer?\n"+
             "1- Reserve a room\n"+
-            "2- Update room reservation\n"+
+            "2- Update room reservation dates\n"+
             "3- List room reservations\n"+
             "0- Sair\n","Exception Hotel",JOptionPane.QUESTION_MESSAGE));
             switch (option) {
@@ -33,8 +33,7 @@ public class App {
                     break; 
                    }
 
-                   if(!checkOut.after(checkIn)){
-                    JOptionPane.showMessageDialog(null,"Check-out date must be after check-in date","Exception Hotel",JOptionPane.ERROR_MESSAGE);
+                   if(dateCheck(checkIn,checkOut)){
                     break;
                    }
                    reservations reservation = new reservations(room, checkIn, checkOut);
@@ -58,5 +57,14 @@ public class App {
                     break;
             }
         }
+
+    }
+    
+    public static boolean dateCheck(Date checkIn, Date checkOut){
+        if(!checkOut.after(checkIn)){
+            JOptionPane.showMessageDialog(null,"Check-out date must be after check-in date","Exception Hotel",JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
     }
 }
