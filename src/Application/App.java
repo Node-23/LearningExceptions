@@ -28,70 +28,86 @@ public class App {
 
                 switch (option) {
                     case 1:
-                        int room;
-                        Date checkIn, checkOut;
-
-                        room = Integer.parseInt(JOptionPane.showInputDialog(null, "Room number:\n", "Exception Hotel",
-                                JOptionPane.QUESTION_MESSAGE));
-                                if(roomReserved(room)) {
-                                    JOptionPane.showMessageDialog(null, "Room already reserved!", "Exception Hotel",JOptionPane.ERROR_MESSAGE);
-                                    break;
-                                }
-                                checkIn = (Date) sdf
-                                        .parse(JOptionPane.showInputDialog(null, "Check-In date(dd/MM/yyyy):\n",
-                                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
-                                checkOut = (Date) sdf
-                                        .parse(JOptionPane.showInputDialog(null, "Check-Out date(dd/MM/yyyy):\n",
-                                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
-                                reservations reservation = new reservations(room, checkIn, checkOut);
-                                reservationList.add(reservation);
-                                JOptionPane.showMessageDialog(null, "-Reservation- \n" + reservation, "Exception Hotel",
-                                        JOptionPane.INFORMATION_MESSAGE);
-                                break;
-
-                            case 2:
-
-                                break;
-
-                            case 3:
-                                String list = "";
-                                int length=0;
-                                for(reservations r : reservationList){
-                                    list += r +"\n"; 
-                                    if(length+1 != reservationList.size()){
-                                        list += "-----------------------\n";
-                                    }
-                                    length++;
-                                }
-                                JOptionPane.showMessageDialog(null, "-Current reservations- \n" + list, "Exception Hotel",
-                                        JOptionPane.INFORMATION_MESSAGE);
-                                break;
-                            case 0:
-                                System.exit(0);
-                                break;
-
-                            default:
-                                JOptionPane.showMessageDialog(null, "Invalid option!", "Exception Hotel",
-                                        JOptionPane.ERROR_MESSAGE);
-                                break;
-                        }
-                    } catch (ParseException e) {
-                        JOptionPane.showMessageDialog(null, "Invalid date format!", "Exception Hotel",
-                                JOptionPane.ERROR_MESSAGE);
-                    } catch (domainException e) {
-                        JOptionPane.showMessageDialog(null, "Error in reservation: " + e.getMessage(),
-                                "Exception Hotel", JOptionPane.ERROR_MESSAGE);
+                    int room;
+                    Date checkIn, checkOut;
+                    room = Integer.parseInt(JOptionPane.showInputDialog(null, "Room number:\n", "Exception Hotel",
+                    JOptionPane.QUESTION_MESSAGE));
+                    if(roomReserved(room)!= -1) {
+                        JOptionPane.showMessageDialog(null, "Room already reserved!", "Exception Hotel",JOptionPane.ERROR_MESSAGE);
+                         break;
                     }
+                    checkIn = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-In date(dd/MM/yyyy):\n",
+                    "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                    checkOut = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-Out date(dd/MM/yyyy):\n",
+                    "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                    reservations reservation = new reservations(room, checkIn, checkOut);
+                    reservationList.add(reservation);
+                    JOptionPane.showMessageDialog(null, "-Reservation- \n" + reservation, "Exception Hotel",
+                    JOptionPane.INFORMATION_MESSAGE);
+                        break;
+
+                    case 2:
+                    room = Integer.parseInt(JOptionPane.showInputDialog(null, "Room number:\n", "Exception Hotel",
+                    JOptionPane.QUESTION_MESSAGE));
+                    int aux = roomReserved(room);
+                    if(aux == -1) {
+                        JOptionPane.showMessageDialog(null, "This room is not reserved or does not exist!", "Exception Hotel",JOptionPane.ERROR_MESSAGE);
+                        break;
+                    }
+                    checkIn = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-In date(dd/MM/yyyy):\n",
+                    "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                    checkOut = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-Out date(dd/MM/yyyy):\n",
+                    "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                    reservationList.get(aux).updateDates(checkIn, checkOut);
+                    JOptionPane.showMessageDialog(null, "-New reservation- \n" + reservationList.get(aux), "Exception Hotel",
+                    JOptionPane.INFORMATION_MESSAGE);
+                        break;
+
+                    case 3:
+                    String list = "";
+                    int length=0;
+                    for(reservations r : reservationList){
+                        list += r +"\n"; 
+                        if(length+1 != reservationList.size()){
+                            list += "-----------------------\n";
+                        }
+                        length++;
+                    }
+                    JOptionPane.showMessageDialog(null, "-Current reservations- \n" + list, "Exception Hotel",
+                    JOptionPane.INFORMATION_MESSAGE);
+                        break;
+
+                    case 0:
+                    System.exit(0);
+                        break;
+
+                    default:
+                    JOptionPane.showMessageDialog(null, "Invalid option!", "Exception Hotel",
+                    JOptionPane.ERROR_MESSAGE);
+                        break;
                 }
-
+            } 
+            catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format!", "Exception Hotel",
+            JOptionPane.ERROR_MESSAGE);
+            } 
+            catch (domainException e) {
+            JOptionPane.showMessageDialog(null, "Error in reservation: " + e.getMessage(),
+            "Exception Hotel", JOptionPane.ERROR_MESSAGE);
             }
-
-     private static boolean roomReserved(int number) {
-       for(reservations r : reservationList){
-        if(r.getRoomNuber() == number){
-            return true;    
         }
-       }
-        return false;
+
     }
+
+    private static int roomReserved(int number) {
+        int index=0;
+        for(reservations r : reservationList){
+         if(r.getRoomNuber() == number){
+             return index;    
+         }
+         index++;
+        }
+         return -1;
+    }
+    
 }
