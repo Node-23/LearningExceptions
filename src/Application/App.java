@@ -31,41 +31,56 @@ public class App {
 
                         room = Integer.parseInt(JOptionPane.showInputDialog(null, "Room number:\n", "Exception Hotel",
                                 JOptionPane.QUESTION_MESSAGE));
-                        checkIn = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-In date(dd/MM/yyyy):\n",
-                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
-                        checkOut = (Date) sdf.parse(JOptionPane.showInputDialog(null, "Check-Out date(dd/MM/yyyy):\n",
-                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
-                        reservations reservation = new reservations(room, checkIn, checkOut);
-                        reservationList.add(reservation);
-                        JOptionPane.showMessageDialog(null,"Reservation: "+ reservation,"Exception Hotel",
-                        JOptionPane.INFORMATION_MESSAGE);
-                            break;
+                                if(roomReserved(room)) {
+                                    JOptionPane.showMessageDialog(null, "Room already reserved!", "Exception Hotel",JOptionPane.ERROR_MESSAGE);
+                                    break;
+                                }
+                                checkIn = (Date) sdf
+                                        .parse(JOptionPane.showInputDialog(null, "Check-In date(dd/MM/yyyy):\n",
+                                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                                checkOut = (Date) sdf
+                                        .parse(JOptionPane.showInputDialog(null, "Check-Out date(dd/MM/yyyy):\n",
+                                                "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                                reservations reservation = new reservations(room, checkIn, checkOut);
+                                reservationList.add(reservation);
+                                JOptionPane.showMessageDialog(null, "Reservation: " + reservation, "Exception Hotel",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                break;
 
-                        case 2:
-                            
-                            break;
+                            case 2:
 
-                        case 3:
-                            
-                            break;
+                                break;
 
-                        case 0:
-                            System.exit(0);
-                            break;    
-                    
-                        default:
-                        JOptionPane.showMessageDialog(null,"Invalid option!","Exception Hotel",JOptionPane.ERROR_MESSAGE);
-                            break;
+                            case 3:
+
+                                break;
+
+                            case 0:
+                                System.exit(0);
+                                break;
+
+                            default:
+                                JOptionPane.showMessageDialog(null, "Invalid option!", "Exception Hotel",
+                                        JOptionPane.ERROR_MESSAGE);
+                                break;
                         }
+                    } catch (ParseException e) {
+                        JOptionPane.showMessageDialog(null, "Invalid date format!", "Exception Hotel",
+                                JOptionPane.ERROR_MESSAGE);
+                    } catch (domainException e) {
+                        JOptionPane.showMessageDialog(null, "Error in reservation: " + e.getMessage(),
+                                "Exception Hotel", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-                catch(ParseException e){
-                    JOptionPane.showMessageDialog(null,"Invalid date format!","Exception Hotel",JOptionPane.ERROR_MESSAGE);
-                }
-                catch(domainException e){
-                    JOptionPane.showMessageDialog(null,"Error in reservation: " + e.getMessage(),"Exception Hotel",
-                    JOptionPane.ERROR_MESSAGE);
-                }
+
             }
 
+     private static boolean roomReserved(int number) {
+       for(reservations r : reservationList){
+        if(r.getRoomNuber() == number){
+            return true;    
+        }
+       }
+        return false;
     }
 }
