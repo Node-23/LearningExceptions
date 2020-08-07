@@ -21,9 +21,11 @@ public class App {
             int option;
             try {
                  option = Integer.parseInt(JOptionPane.showInputDialog(null,
-                        "OPTIONS\n" + "1- Reserve a room\n" + "2- Update room reservation dates\n"
-                                + "3- List room reservations\n" + "0- Sair\n",
-                        "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+                        "-OPTIONS-\n" + "1- Reserve a room\n" + 
+                        "2- Update room reservation dates\n"+ 
+                        "3- List room reservations\n" + 
+                        "0- Sair\n","Exception Hotel", JOptionPane.QUESTION_MESSAGE));
+
                 switch (option) {
                     case 1:
                         int room;
@@ -43,7 +45,7 @@ public class App {
                                                 "Exception Hotel", JOptionPane.QUESTION_MESSAGE));
                                 reservations reservation = new reservations(room, checkIn, checkOut);
                                 reservationList.add(reservation);
-                                JOptionPane.showMessageDialog(null, "Reservation: " + reservation, "Exception Hotel",
+                                JOptionPane.showMessageDialog(null, "-Reservation- \n" + reservation, "Exception Hotel",
                                         JOptionPane.INFORMATION_MESSAGE);
                                 break;
 
@@ -52,9 +54,18 @@ public class App {
                                 break;
 
                             case 3:
-
+                                String list = "";
+                                int length=0;
+                                for(reservations r : reservationList){
+                                    list += r +"\n"; 
+                                    if(length+1 != reservationList.size()){
+                                        list += "-----------------------\n";
+                                    }
+                                    length++;
+                                }
+                                JOptionPane.showMessageDialog(null, "-Current reservations- \n" + list, "Exception Hotel",
+                                        JOptionPane.INFORMATION_MESSAGE);
                                 break;
-
                             case 0:
                                 System.exit(0);
                                 break;

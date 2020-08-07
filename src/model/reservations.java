@@ -48,10 +48,10 @@ public class reservations {
 
     @Override
     public String toString() {
-        return " Room = " + getRoomNuber() + ",\n" +
+        return " Room: " + getRoomNuber() + "\n" +
             "Check-In = " + getCheckIn() + ",\n" +
             "Check-Out = " + getCheckOut() + ",\n" +
-            duration() + " nights";
+            duration() + " night(s)";
     }
 
     private void dateCheck(Date checkIn, Date checkOut) throws domainException{
